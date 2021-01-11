@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Thanks</h1>
+    <div id="Sco"></div>
+    <script>
+        const Scores=document.getElementById("Sco");
+        var Sc = sessionStorage.getItem("Score");
+        console.log(Sc);
+        Scores.innerHTML=Sc;
+        
+    </script>
+</body>
+</html>

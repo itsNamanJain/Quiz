@@ -1,0 +1,54 @@
+*{
+    margin: 0rem;
+    padding: 0rem;
+    font-family: 'Baloo Bhai 2', cursive;
+    color: white;
+}
+.card{
+    width: 30rem;
+    height: 30rem;
+    background-color: orange;
+    text-align: center;
+}
+#bg1{
+    height: 41rem;
+    width: 84rem;
+}
+.card{
+    width: 38rem;
+    background-image: url(bg2.jpg);
+    height: 30rem;
+    border-radius:.5rem;
+    position: absolute;
+    top: 7rem;
+    left: 20rem;
+    margin-bottom: 5rem;
+    box-shadow: .2rem .2rem 1rem rgb(20, 16, 16);
+}
+#timer{
+    font-size: 10rem;
+    color: black;
+}
+#question{
+    text-align: center;
+    padding-top: 4rem;
+    margin: .5rem 2.5rem;
+    color: white;
+    font-size: 1.5rem;
+}
+.btn{
+    width: 25rem;
+    padding: .2rem;
+    margin: .2rem;
+    background-color: rgb(50 54 90 / 50%);
+    box-shadow: .4rem .4rem 1rem rgb(6, 38, 46);
+}
+.btn:hover{
+    background-color: rgba(27, 51, 160, 0.438);
+    color: ivory;
+    transition: .5s;;
+}
+.Sbtn{
+    box-shadow: .4rem .4rem 1rem rgb(6, 38, 46);
+    margin: .2rem;
+}
