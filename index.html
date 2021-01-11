@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500&display=swap" rel="stylesheet">
+    <title>Quiz</title>
+</head>
+<body>
+    <div class="main">
+    <img src="bg4.jpg" alt="Background" id="bg1">
+    <div id="timer"></div>
+    <div class="card">
+        <div id="question"></div>
+        <button id="1" class="btn"></button><br>
+        <button id="2" class="btn"></button><br>
+        <button id="3" class="btn"></button><br>
+        <button id="4" class="btn"></button><br>
+        <div id="sts">Status : <button id="status" class="Sbtn"></button></div>
+        <div>Score : 
+        <div id="scores">0</div></div>
+        <button id="nQ" class="btn">Next Question</button>
+    </div></div>
+    <script>
+        var Numb=1;
+    var score=0;
+    const nQ=document.getElementById("nQ");
+    const status=document.getElementById("status");
+    const scores=document.getElementById("scores");
+    const question=document.getElementById("question");
+    const timer=document.getElementById("timer");
+    var btn1=document.getElementById("1");
+    var btn2=document.getElementById("2");
+    var btn3=document.getElementById("3");
+    var btn4=document.getElementById("4");
+    const StopTimer=()=>{
+        clearInterval(x);
+        timer.innerHTML="";
+    }
+    const Timer=()=>{
+        var countDownDate = new Date().getTime();
+        countDownDate+=30000;
+        var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        timer.innerHTML=seconds;
+        if (distance < 0) {
+            clearInterval(x);
+            timer.innerHTML = "";
+            getNewQuestion();
+  }
+}, 1000);
+    }
+    const Finish=()=>{
+        sessionStorage.setItem("Score", score);
+        window.location.replace("Final.html");
+    }
+    const Loop=()=>{
+        if(Numb==10)
+        {
+            nQ.innerHTML="Submit";
+            nQ.addEventListener("click",Finish);
+        }
+        else 
+        Numb++;
+    }
+    const Correct=()=>{
+        score+=10;
+        console.log(score);
+        scores.innerText=score;
+        status.style.backgroundColor=("#5cd65c");
+        status.innerText="Correct Answer";
+    };
+    const Incorrect=()=>{
+        status.style.backgroundColor=("#ff4d4d");
+        status.innerText="Incorrect Answer";
+    }
+    const BDis=()=>{
+        btn1.disabled=true;
+        btn2.disabled=true;
+        btn3.disabled=true;
+        btn4.disabled=true;
+    }
+    const BEna=()=>{
+        btn1.disabled=false;
+        btn2.disabled=false;
+        btn3.disabled=false;
+        btn4.disabled=false;
+    }
+    const newQ=()=>{
+        status.innerText="";
+        status.style.backgroundColor=null;
+        BEna();
+            getNewQuestion();
+    }
+    const checkScore1=()=>{
+        if(btn1.value==(`${realData.results[rnum].correct_answer}`)){
+            Correct();
+        }
+        else{
+            Incorrect();
+        }
+        BDis();
+        //StopTimer();
+    };
+    const checkScore2=()=>{
+        if(btn2.value==(`${realData.results[rnum].correct_answer}`)){
+             Correct();
+        }else{
+            Incorrect();
+        }
+        BDis();
+        //StopTimer();
+        
+    };
+    const checkScore3=()=>{
+        if(btn3.value==(`${realData.results[rnum].correct_answer}`)){
+            Correct();
+        }else{
+            Incorrect();
+        }
+        BDis();
+        //StopTimer();
+    };
+    const checkScore4=()=>{
+        if(btn4.value==(`${realData.results[rnum].correct_answer}`)){
+            
+             Correct();
+        }
+        else{
+            Incorrect();
+        }
+        BDis();
+      //  StopTimer();
+    };
+
+    const getNewQuestion=()=>{
+
+    //    Timer();
+        rnum =Math.floor(Math.random()*10); //Getting Random Number
+        question.innerText=`${realData.results[rnum].question}`;
+        var num=Math.floor((Math.random()*4)+1);
+        var bno=num.toString();
+        var btn1=document.getElementById(bno);
+        if(bno=="1"){
+        var btn2=document.getElementById("2");
+        var btn3=document.getElementById("3");
+        var btn4=document.getElementById("4");
+        }
+        else if(bno=="2"){
+            var btn2=document.getElementById("1");
+        var btn3=document.getElementById("3");
+        var btn4=document.getElementById("4");
+        }
+        else if(bno=="3"){
+            var btn2=document.getElementById("2");
+        var btn3=document.getElementById("1");
+        var btn4=document.getElementById("4");
+        }
+        else{
+        var btn2=document.getElementById("2");
+        var btn3=document.getElementById("3");
+        var btn4=document.getElementById("1");
+        }
+        console.log(bno);
+        
+        btn1.innerText=`${realData.results[rnum].correct_answer}`;
+        btn2.innerText=`${realData.results[rnum].incorrect_answers[0]}`;
+        btn3.innerText=`${realData.results[rnum].incorrect_answers[1]}`;
+        btn4.innerText=`${realData.results[rnum].incorrect_answers[2]}`;
+        btn1.value=`${realData.results[rnum].correct_answer}`;
+        btn2.value=`${realData.results[rnum].incorrect_answers[0]}`;
+        btn3.value=`${realData.results[rnum].incorrect_answers[1]}`;
+        btn4.value=`${realData.results[rnum].incorrect_answers[2]}`;
+        Loop();
+        console.log(btn1.value);
+        console.log(Numb);
+
+    }
+     const getQuestion=async()=>{
+        const api="https://opentdb.com/api.php?amount=10&category=9&type=multiple";
+        try {
+        let data = await fetch(api);
+        realData=await data.json();  //Getting data As Json Object
+        status.innerText="";
+        status.backgroundColor=null;
+        BEna();
+        getNewQuestion();
+       // console.log(realData[0].text);
+       // console.log(realData[0].author);
+        } catch (e) {
+        
+        }
+        };
+
+        btn1.addEventListener("click",checkScore1);
+        btn2.addEventListener("click",checkScore2);
+        btn3.addEventListener("click",checkScore3);
+        btn4.addEventListener("click",checkScore4);
+        nQ.addEventListener("click",newQ);
+        getQuestion();
+    </script>
+</body>
+</html>
